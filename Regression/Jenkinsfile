@@ -1,0 +1,44 @@
+#!/usr/bin/env groovy
+if (env.LUCX_VERSION != null && env.LUCX_VERSION != "") {
+    library "LUCxBau@${env.LUCX_VERSION}"
+} else {
+    library "LUCxBau@22.4.3"
+}
+
+String jenkinsDir = 'tools/jenkins'
+
+// This Jenkinsfile can be used to run differend types of Jobs (Multibranch, nightly, testing etc.)
+// The following settings are possible:
+//  - LUCx version selection
+//    - default: run with default project version
+//    - job parameter 'LUCX_VERSION' specifies lucxbau version
+//  -  config selection
+//    - default: use LUCx default config selection mechanism
+//    - job parameter 'CONFIG': use yaml config passed as string
+//    - job parameter 'CONFIG_PATH': use specific config versioned in repository
+//  - enable/disable DEBUG, default is false
+
+boolean debug = env.DEBUG ?: false
+
+// loading LUCxBaux with a variable version is not supported when using @Library
+// using pipeline step 'library' instead for this use-case
+
+def now = new Date()
+env.CURRENT_DATE =  now.format("yyyy-MM-dd", TimeZone.getTimeZone('UTC'))
+
+// default: use LUCx default mechanism
+def configsDirs = null
+def includeDirs = null
+if (jenkinsDir) {
+    configsDirs = ["$jenkinsDir/configs"]
+    includeDirs = ["$jenkinsDir/configs/", "$jenkinsDir/shared/configs/"]
+}
+
+
+if (env.CONFIG != null && env.CONFIG != "") {
+    lucx.bau(config: env.CONFIG, isPath: false, debug: debug,  includeDirs: includeDirs)
+} else if (env.CONFIG_PATH != null && env.CONFIG_PATH != "") {
+    lucx.bau(config: env.CONFIG_PATH, isPath: true, debug: debug)
+} else {
+    lucx.bau(debug: debug, configsDirs: configsDirs, includeDirs: includeDirs)
+}

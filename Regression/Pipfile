@@ -1,0 +1,25 @@
+[[source]]
+# using the common BIOS artifactory - Password is publicly available
+url = "https://anu9rng:AP6eY5xuhS1MqAdy5jedftw3ndQq7MHjXL8Rpb@rb-artifactory.bosch.com/artifactory/api/pypi/python-virtual/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+# using the common BIOS artifactory - Password is publicly available
+url = "https://rb-artifactory.bosch.com/artifactory/api/pypi/tcc-pypi-local/simple"
+verify_ssl = true
+name = "tcc"
+
+[packages]
+lucxbox = ">=3.6.3"
+sphinx = ">=4.5.0"
+sphinxcontrib-needs = ">=0.7.8"
+
+[dev-packages]
+autopep8 = "*"
+pep8 = "*"
+pylint = ">=2.8.3"
+pytest = "*"
+
+[requires]
+python_version = "3.8"

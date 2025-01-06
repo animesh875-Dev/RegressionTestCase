@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+    cx-env:
+        build:
+            context: .
+            network: "host"
+            args:
+                DockerUSER: ${CONTAINER_USER}
+                DockerUID: ${CONTAINER_UID}
+                DockerGID: ${CONTAINER_GID}
+        network_mode: "host" # this parameter is used during run
+        volumes:
+            # mount volumes under /mnt this clarify that the files don't exist in the container
+            - .:${HOME}/mnt/ws
+        working_dir: ${HOME}/mnt/ws

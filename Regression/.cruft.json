@@ -1,0 +1,14 @@
+{
+  "template": "ssh://git@sourcecode.socialcoding.bosch.com:7999/edo/repo_scaffold.git",
+  "commit": "9cf9fb17cc97a8e543418eaa6bbf134ad64a157f",
+  "checkout": "master",
+  "context": {
+    "cookiecutter": {
+      "project_name": "testing",
+      "project_slug": "testing",
+      "jenkins_directory_name": "tools/jenkins",
+      "_template": "ssh://git@sourcecode.socialcoding.bosch.com:7999/edo/repo_scaffold.git"
+    }
+  },
+  "directory": "sw-repo-template"
+}

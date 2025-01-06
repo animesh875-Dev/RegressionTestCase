@@ -1,0 +1,8 @@
+Artifact Type,isHeading,id,Primary Text,parentBindingHeading,true,10,CAN communication interface,Heading,true,20,Baudrate,10Customer Requirement,,30,250 kBaud (J1939),20Heading,true,40,Adressing,10Customer Requirement,,50,29 bit extended identifiers,40Heading,true,60,Data format,10Customer Requirement,,70,Intel,60Heading,true,80,Operating voltage,Heading,true,90,12V version,80Customer Requirement,,100,11-16V,90Heading,true,110,24V version,80Customer Requirement,,120,16-36V,110Heading,true,130,Connector,Heading,true,140,Type,130Customer Requirement,,150,Hirschmann AK2,140Heading,true,160,Cable   ,Heading,true,170,"Cable length 
+between sensor and SCU",160Customer Requirement,,180,Around 1000mm,170Heading,true,190,Mouting boss,Heading,true,200,probe thread,190Customer Requirement,,210,M20x 1.5mm,200Heading,true,220,SCU mounting pattern,Heading,true,230,"Bolt pattern 
+Number of holes
+Hole size",220Customer Requirement,,240,"91 mm x 47 mm
+2
+8 mm",230Heading,true,250,Nox measurement,Heading,true,260,Nox measurement range,250Customer Requirement,,270,0-3000ppm,260Heading,true,280,Nox accuracy target,250Customer Requirement,,290,"0 -100 ppm: ±8ppm
+100 ppm -500 ppm: ±8%
+500-1500ppm: ±0%",280

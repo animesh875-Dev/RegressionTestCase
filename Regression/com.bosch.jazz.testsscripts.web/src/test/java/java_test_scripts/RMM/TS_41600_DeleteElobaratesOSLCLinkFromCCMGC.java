@@ -1,0 +1,94 @@
+/*
+ * Copyright (c) ETAS GmbH 2023. All rights reserved.
+ */
+package java_test_scripts.RMM;
+
+import static org.junit.Assert.assertNotNull;
+
+import java.security.InvalidKeyException;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.bosch.automation.web.log.LOGGER;
+import com.bosch.jazz.automation.web.common.constants.WorkItemEnums;
+import com.bosch.jazz.automation.web.pagemodel.rmm.RMMModelElementPage;
+import com.bosch.jazz.automation.web.reporter.Reporter;
+
+import common.AbstractFrameworkTest;
+
+/**
+ *
+ */
+public class TS_41600_DeleteElobaratesOSLCLinkFromCCMGC extends AbstractFrameworkTest {
+
+  /**
+   * @throws InvalidKeyException
+   */
+  @Test
+  public void ts_41600_deleteElobaratesOSLCLinkFromCCMGC() throws InvalidKeyException {
+
+    String ccmServerURL = this.testDataRule.getConfigData("CCM_SERVER_URL");
+    String projectArea = this.testDataRule.getConfigData("RMM_CCM_PROJECT_AREA");
+    String workItemID = this.testDataRule.getConfigData("WORKITEM_ID");
+    String elementResourceId = this.testDataRule.getConfigData("ELEMENT_RESOURCE_ID");
+    String savebutton = this.testDataRule.getConfigData("SAVE_BUTTON");
+
+
+    // Login in to alm application with valid user name and password.
+    getJazzPageFactory().getLoginPage().loginWithGivenPassword(getUserId(), getUserPassword(), ccmServerURL);
+    Reporter.logPass(getUserId() + " user logged in to the " + ccmServerURL + " repository successfully.");
+    // Select the project area.
+    getJazzPageFactory().getCCMProjectAreaDashboardPage().selectProjectArea(projectArea);
+    Reporter.logPass(projectArea + ": project area opened successfully.");
+
+
+    RMMModelElementPage rmm = getJazzPageFactory().getRMMModelElementPage();
+    assertNotNull(rmm);
+
+    String element_URI = rmm.getRepositoryURLForCCMGC(workItemID, ccmServerURL, projectArea);
+    getJazzPageFactory().getCCMProjectAreaDashboardPage().navigateToURL(element_URI);
+
+    getJazzPageFactory().getAbstractRMMPage().waitForSecs(10);
+
+    // Navigate to Links tab in task work item.
+    getJazzPageFactory().getCCMWorkItemEditorPage().selectTab(WorkItemEnums.WorkItemTab.LINKS.toString());
+    Reporter.logPass(WorkItemEnums.WorkItemTab.LINKS.toString() + ": Tab opened successfully in Task workitem.");
+
+    boolean isLinkPresent = getJazzPageFactory().getAbstractRMMPage().isLinkVisibleWithHref(elementResourceId);
+    Reporter.logPass("Check if OSLC Link Present to Delete?: " + isLinkPresent);
+    LOGGER.LOG.info("Check if OSLC Link Present to Delete?: " + isLinkPresent);
+
+    if (isLinkPresent) {
+      getJazzPageFactory().getAbstractRMMPage().deleteAMLinkFromCCM(elementResourceId);
+
+      Reporter.logPass("Click on Save Button");
+      LOGGER.LOG.info("Click on Save Button");
+
+      getJazzPageFactory().getAbstractRMMPage().clickOnButtons(savebutton);
+
+      getJazzPageFactory().getAbstractRMMPage().waitForSecs(10);
+      Reporter.logPass("Refresh Page");
+      LOGGER.LOG.info("Refresh Page");
+
+      // Refresh CCM page
+      getJazzPageFactory().getAbstractRMMPage().refresh();
+
+      // Verify CCM links are deleted or not
+      isLinkPresent = getJazzPageFactory().getRMMModelElementPage().isLinkVisibleWithHref(elementResourceId);
+      Reporter.logPass("Check if OSLC Link Present after Deletion: " + isLinkPresent);
+      LOGGER.LOG.info("Check if OSLC Link Present after Deletion: " + isLinkPresent);
+
+
+      Assert.assertFalse(isLinkPresent);
+      Reporter.logPass(elementResourceId + " : Link is deleted succesfully");
+      LOGGER.LOG.info(elementResourceId + " : Link is deleted succesfully");
+
+    }
+    else {
+      Reporter.logFailure(elementResourceId + " : Link does not present in the Architecture element");
+      LOGGER.LOG.info(elementResourceId + " : Link does not present in the Architecture element");
+      Assert.assertTrue(isLinkPresent);
+    }
+  }
+}

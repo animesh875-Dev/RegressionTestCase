@@ -1,0 +1,44 @@
+# !!!! IMPORTANT !!!!
+# Order is important; the last matching pattern takes the most
+# precedence.
+
+# ### EXAMPLES #################################################
+# Syntax:                                                       #
+# @@@<group-name>     @<user-id1> @<user-id2>   -> define group #
+#                                                               #
+# <pattern>     @<user-id1> @@<group-name-defined-above>        #
+#                                                               #
+# `*.txt` -> matches all *.txt files in the whole repository    #
+#                                                               #
+# `docs/*` -> matches all files inside the like                 #
+# `docs/getting-started.md` but not further nested files like   #
+# `docs/build-app/troubleshooting.md`.                          #
+#                                                               #
+# `/tools/` -> matches any files in the `/tools`                #
+# directory at the root of the repository and any of its        #
+# subdirectories.                                               #
+#                                                               #
+# `apps/` -> matches any file in an `apps` directory            #
+# anywhere in your repository.                                  #
+# ############################################################# #
+### Group Definition ###
+@@@eet-cx @tha8hc @tnh5hc @nam4hc @lme4hc
+
+# --- Global owners ---
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# this owners will be requested for review.
+*                        @@repo-responsible
+
+# TODO -> Configure your codeowners here
+
+### Team CX ###
+# common
+docker-compose.yml       @@eet-cx
+Dockerfile               @@eet-cx
+.dockerignore            @@eet-cx
+.pre-commit-config.yaml  @@eet-cx
+Jenkinsfile              @@eet-cx
+tools/jenkins            @@eet-cx
+Pipfile                  @@eet-cx
+Pipfile.lock             @@eet-cx
