@@ -19,6 +19,7 @@
         <sonar.jacoco.reportPaths>${project.build.directory}\jacoco-unit.exec</sonar.jacoco.reportPaths>
         <!-- <sonar.jacoco.itReportPaths>${project.build.directory}/jacoco.ui.exec</sonar.jacoco.itReportPaths> -->
         <!-- ATTENTION: Configure here the version of the web test framework that you want to use -->
+        <password>${env.PASSWORD}</password>
         <com.bosch.jazz.tests.web.version>2023.2.0-SNAPSHOT</com.bosch.jazz.tests.web.version>
         <project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
